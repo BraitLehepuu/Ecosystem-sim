@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Teeb mustvalge pildi noisist (Pole vaja lõplikuks programmiks)
+
 public class DrawTexture : MonoBehaviour
 {
 

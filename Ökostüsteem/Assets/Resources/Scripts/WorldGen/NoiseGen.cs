@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Kood mis genereerib meshi tegemiseks perlin noise
+
 public static class NoiseGen
 {
 
     public static float[,] GenerateNoise(int mapWidth, int mapHeigth, float mapScale, int mapLevels, float mapIntensity, float mapOpacity, float xOffset, float yOffset, float mapOpacity2)
     {
+
+        //Genereerib perlin noise ja assignib selle väärtuse 2D arrayse
+        //Väärtus arrays määrab selle vertexi kõrguse
 
         float[,] noiseMap = new float[mapWidth, mapHeigth];
 
@@ -28,7 +33,6 @@ public static class NoiseGen
                     float perlinValue = Mathf.PerlinNoise(perlinX, perlinY);
 
                     pixelValue += perlinValue * opacity;
-                    //pixelValue = Vector3.Lerp(new Vector3(pixelValue, 0, 0), new Vector3(perlinValue * opacity, 0, 0), 0.5f).x;
 
                     opacity *= mapOpacity;
                     intensity *= mapIntensity;

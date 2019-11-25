@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Start kood, alustab world geni
+
 public class DisplayNoise : MonoBehaviour
 {
 
@@ -21,6 +23,9 @@ public class DisplayNoise : MonoBehaviour
 
     void Start()
     {
+
+        //Teeb world geni randomiks
+
         xOffset = Random.Range(0, 9999);
         yOffset = Random.Range(0, 9999);
 
@@ -29,6 +34,8 @@ public class DisplayNoise : MonoBehaviour
 
     void Test()
     {
+
+        //Teeb kindlaks et mapi laiused oleksid paaritud arvud
 
         if (width % 2 == 0)
         {
@@ -39,9 +46,11 @@ public class DisplayNoise : MonoBehaviour
             heigth += 1;
         }
 
+        //Genereerib noisemapi
+
         float[,] noiseMap = NoiseGen.GenerateNoise(width,heigth,scale,levels,intensity,opacity,xOffset,yOffset,opacity2);
 
-        DrawTexture drawScript = GetComponent<DrawTexture>();
+        //DrawTexture drawScript = GetComponent<DrawTexture>();
 
         //drawScript.DrawNoise(width,heigth,noiseMap);
 
