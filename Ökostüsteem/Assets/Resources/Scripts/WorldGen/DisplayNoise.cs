@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Ökosüsteemi loomine tehisintellekti abil
+//@autor Ralf Brait Lehepuu
+//
+//Mõningane eeskuju https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,34 +12,34 @@ using UnityEngine;
 public class DisplayNoise : MonoBehaviour
 {
 
+    public int xOffset;
+    public int yOffset;
     public int width;
     public int heigth;
     public float scale;
     public int levels;
     public float intensity;
     public float opacity;
-    public float xOffset;
-    public float yOffset;
     public float opacity2;
     public float heigths;
     public int coast;
     public float waterLevel;
     public int mapRadius;
+    public int animalSpawnDist;
 
-    void Start()
+
+    public void Start()
     {
+        Test();
+    }
 
+    public void Test() {
+        
         //Teeb world geni randomiks
 
         xOffset = Random.Range(0, 9999);
         yOffset = Random.Range(0, 9999);
-
-        Test();
-    }
-
-    void Test()
-    {
-
+        
         //Teeb kindlaks et mapi laiused oleksid paaritud arvud
 
         if (width % 2 == 0)
@@ -56,6 +61,6 @@ public class DisplayNoise : MonoBehaviour
 
         MakeMesh makeMesh = GetComponent<MakeMesh>();
 
-        makeMesh.CreateMesh(width, heigth, noiseMap, heigths, coast, waterLevel, mapRadius);
+        makeMesh.CreateMesh(width, heigth, noiseMap, heigths, coast, waterLevel, mapRadius, animalSpawnDist);
     }
 }

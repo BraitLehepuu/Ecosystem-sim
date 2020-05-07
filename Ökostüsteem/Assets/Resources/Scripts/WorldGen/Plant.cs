@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Ökosüsteemi loomine tehisintellekti abil
+//@autor Ralf Brait Lehepuu
+//
+//
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +11,12 @@ public class Plant : MonoBehaviour
 {
 
     public int ID;
+    public GrassSpawnSet parentScript;
+
+    private void FixedUpdate()
+    {
+        transform.GetChild(0).transform.GetChild(0).transform.position = new Vector3(transform.position.x, 3, transform.position.z);
+    }
 
     void Start()
     {
@@ -15,6 +26,25 @@ public class Plant : MonoBehaviour
             Destroy(transform.GetChild(0).gameObject);
         }
         Instantiate(Resources.Load<GameObject>("Models/PlantRedObject"), transform);
+    }
+
+    public void getEaten()
+    {
+        parentScript = GameObject.FindGameObjectWithTag("GenObject").GetComponent<GrassSpawnSet>();
+        if (parentScript.grassMap[ID].y < -10 && parentScript)
+        {
+            parentScript.grassMap[ID].y += 50;
+        }
+        GameObject.FindWithTag("GenObject").GetComponent<GlobalNumbers>().plantCount -= 1;
+        Destroy(gameObject);
+    }
+
+    public void setBack()
+    {
+        if (parentScript.grassMap[ID].y < -10 && parentScript)
+        {
+            parentScript.grassMap[ID].y += 50;
+        }
     }
 
 }

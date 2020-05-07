@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Ökosüsteemi loomine tehisintellekti abil
+//@autor Ralf Brait Lehepuu
+//
+//
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +21,7 @@ public class SpawnWater : MonoBehaviour
         waterCollider.isTrigger = true;
         waterObject.transform.SetParent(GameObject.FindWithTag("WaterObjects").transform);
         waterObject.transform.tag = "Water";
+        waterObject.layer = 4;
 
     }
 }

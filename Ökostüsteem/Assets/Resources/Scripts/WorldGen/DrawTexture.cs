@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Ökosüsteemi loomine tehisintellekti abil
+//@autor Ralf Brait Lehepuu
+//
+//Mõningane eeskuju https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

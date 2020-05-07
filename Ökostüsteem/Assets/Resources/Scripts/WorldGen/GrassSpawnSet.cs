@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Ökosüsteemi loomine tehisintellekti abil
+//@autor Ralf Brait Lehepuu
+//
+//
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +14,13 @@ public class GrassSpawnSet : MonoBehaviour
 
     GameObject plant;
     bool spawning;
-    Vector3[] grassMap;
+    public Vector3[] grassMap;
     int mapWidth;
     int mapHeigth;
     public int plantCount;
     int[] taken;
     float waterLevel;
+    Vector3 currentSpawn;
 
 
     public void StartGen(Vector3[] spawnMap, int mapX, int mapY, float WaterLevel)
@@ -23,57 +29,52 @@ public class GrassSpawnSet : MonoBehaviour
         plant.transform.tag = "PlantGrass";
         plant.AddComponent<BoxCollider>();
         plant.AddComponent<Plant>();
+        plant.layer = 11;
+        plant.transform.position = new Vector3(0,-50,0);
         grassMap = spawnMap;
         mapHeigth = mapY;
         mapWidth = mapX;
         waterLevel = WaterLevel;
 
-        spawning = false;
-    }
-
-    private void Update()
-    {
-        if (!spawning)
+        while (gameObject.GetComponent<GlobalNumbers>().plantCount <= 600)
         {
-            spawning = true;
             SpawnPoint();
         }
     }
 
-    void SpawnPoint()
+    private void FixedUpdate()
     {
-
-        int randomX = Random.Range(7, mapWidth - 7);
-        int randomY = Random.Range(7, mapHeigth - 7);
-        Vector3 currentSpawn = grassMap[randomX * randomY];
-        while (grassMap[randomX * randomY].y <= waterLevel)
+        if (!spawning && gameObject.GetComponent<GlobalNumbers>().plantCount <= 600)
         {
-            if (randomX < mapWidth - 7)
-            {
-                randomX += Random.Range(5,20);
-            }
-            else if (randomX > mapWidth - 7)
-            {
-                randomX = 7;
-            }
-            if (randomY < mapHeigth - 7)
-            {
-                randomY += Random.Range(5, 20);
-            }
-            else if (randomY > mapHeigth - 7)
-            {
-                randomY = 7;
-            }
+            spawning = true;
+            Invoke("SpawnPoint", Random.Range(1,2));
         }
-        currentSpawn = grassMap[randomX * randomY];
+    }
 
-        SpawnPatch(randomX, randomY);
+    public void SpawnPoint()
+    {
+        for (int l = 0; l < 50; l++) {
+            int randomX = Random.Range(7, mapWidth - 7);
+            int randomY = Random.Range(7, mapHeigth - 7);
+            currentSpawn = grassMap[randomX * randomY];
+            while (grassMap[randomX * mapWidth + randomY].y <= waterLevel)
+            {
+                randomX = Random.Range(7, mapWidth - 7);
+                randomY = Random.Range(7, mapHeigth - 7);
+            }
+            currentSpawn = grassMap[randomX * randomY];
+
+            SpawnPatch(randomX, randomY);
+        }
     }
 
     void SpawnPatch(int x, int y)
     {
-
-        GameObject parentSet = Instantiate(new GameObject("PlantSet"));
+        GameObject parentSetTemplate = new GameObject("PlantSet");
+        GameObject parentSet = Instantiate(parentSetTemplate);
+        parentSet.transform.tag = "PlantsObject";
+        parentSet.transform.parent = GameObject.FindWithTag("GenObject").transform;
+        Destroy(parentSetTemplate);
 
         taken = new int[plantCount];
 
@@ -83,10 +84,16 @@ public class GrassSpawnSet : MonoBehaviour
             if (spotID <= mapHeigth*mapWidth && grassMap[spotID].y >= waterLevel)
             {
                 plant.GetComponent<Plant>().ID = spotID;
+                plant.GetComponent<Plant>().parentScript = GetComponent<GrassSpawnSet>();
                 GameObject currentPlant = Instantiate(plant, grassMap[spotID], new Quaternion(0,0,0,0));
                 currentPlant.transform.SetParent(parentSet.transform);
+                gameObject.GetComponent<GlobalNumbers>().plantCount += 1;
                 grassMap[spotID].y -= 50;
             }
+        }
+        if(parentSet.transform.childCount == 0)
+        {
+            Destroy(parentSet);
         }
 
         spawning = false;
@@ -102,7 +109,7 @@ public class GrassSpawnSet : MonoBehaviour
             }
             else
             {
-            spotID++;
+                spotID++;
             }
         }
         for (int h = 0; h < taken.Length; h++)

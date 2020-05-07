@@ -7,6 +7,12 @@ TagManager:
   - WaterObjects
   - Water
   - PlantGrass
+  - AnimalHunter
+  - Hunters
+  - Planteaters
+  - AnimalPlanteater
+  - GenObject
+  - PlantsObject
   layers:
   - Default
   - TransparentFX
@@ -17,10 +23,10 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
+  - Mesh
+  - Hunter
+  - Plant
+  - Planteater
   - 
   - 
   - 
